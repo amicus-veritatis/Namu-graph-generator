@@ -40,12 +40,11 @@ font1 = fontprop.get_name()
 font2 = fontprop2.get_name()
 
 def GenPlot(DataIn):
-    
     left = dt.date(2020, 1,20)
     right = dt.date.today()
     tick_spacing = 5000
-    days = mdates.drange(left,right,dt.timedelta(days=1))
-    
+    nDay = right if now.hour<10 else right+dt.timedelta(days=1)
+    days = mdates.drange(left,nDay,dt.timedelta(days=1))
     fig, [ax,timeline] = plt.subplots(nrows=2, ncols=1, sharex='col', gridspec_kw={'height_ratios': [30, 12], 'wspace' : 0, 'hspace':0},figsize=(48,36),constrained_layout=True, facecolor='#cad9e1')
     params = {"figure.facecolor": "#cad9e1",
               "axes.facecolor": "#cad9e1",
@@ -181,6 +180,9 @@ df['Event'].iloc[206]=-1
 df['Eventline'].iloc[206]='수도권 교회 집단감염'
 df['Event'].iloc[305]=-1
 df['Eventline'].iloc[305]='3차 대유행'
+for x,y,z in zip(range(323,326),[592,671,680],[38746,39417,40097]):
+    df['dConf'].iloc[x]=y
+    df['decideCnt'].iloc[x]=z
 # https://plotly.com/python/text-and-annotations/#text-font-as-an-array--styling-each-text-element
 key_colums = ['stateDt','decideCnt','clearCnt','dConf', 'Event', 'Eventline']
 data = Soup(response,'lxml-xml')
