@@ -180,6 +180,9 @@ df['Event'].iloc[206]=-1
 df['Eventline'].iloc[206]='수도권 교회 집단감염'
 df['Event'].iloc[305]=-1
 df['Eventline'].iloc[305]='3차 대유행'
+for x,y,z in zip(range(46,51),[518,483,367,248,131],[6284,6767,7134,7382,7513]):
+    df['dConf'].iloc[x]=y
+    df['decideCnt'].iloc[x]=z
 for x,y,z in zip(range(323,326),[592,671,680],[38746,39417,40097]):
     df['dConf'].iloc[x]=y
     df['decideCnt'].iloc[x]=z
