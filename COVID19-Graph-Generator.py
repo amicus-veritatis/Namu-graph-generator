@@ -158,16 +158,25 @@ class req:
 
 a = req(PageNo=1, DateFrom=20200311)
 response = a.resp.text
-df0 = pd.read_csv("https://pastebin.com/raw/G1tdJpF6")
+df0 = pd.read_csv("https://pastebin.com/raw/FFzk1m53")
 df = pdx.read_xml(response,['response','body','items','item'])
 df = df.drop_duplicates('stateDt', keep='first')
 now = dt.datetime.now()
-sp = np.datetime_as_string(np.arange('2020-03-11',(now).strftime("%Y-%m-%d"),dtype='datetime64[D]'),unit='D')
+print(now) #########################
+print(dt.datetime.hour) ################
+print(now.hour) ################
+nHour = (now).strftime("%Y-%m-%d") if now.hour<10 else (now+dt.timedelta(days=1)).strftime("%Y-%m-%d")
+nTime = now-dt.timedelta(days=1) if now.hour<10 else now
+sp = np.datetime_as_string(np.arange('2020-03-11',nHour ,dtype='datetime64[D]'),unit='D')
+#################
 sp = np.flip(sp) ###############
 df['stateDt'] = sp
 df = df.iloc[::-1]
 df = pd.concat([df0,df],ignore_index=True)
 df = df.drop_duplicates('stateDt', keep='first')
+print(sp)
+print(df['decideCnt'])
+print(df['stateDt'])
 df['dConf'] = df['decideCnt'].astype(int).diff()
 df['dConf'].iloc[0]=0
 df['dConf'].iloc[51]=333
@@ -180,9 +189,6 @@ df['Event'].iloc[206]=-1
 df['Eventline'].iloc[206]='수도권 교회 집단감염'
 df['Event'].iloc[305]=-1
 df['Eventline'].iloc[305]='3차 대유행'
-for x,y,z in zip(range(40,51),[813,586,476,600,516,438,518,483,367,248,131],[3150,3736,4212,4812,5328,5766,6284,6767,7134,7382,7513]):
-    df['dConf'].iloc[x]=y
-    df['decideCnt'].iloc[x]=z
 for x,y,z in zip(range(323,326),[592,671,680],[38746,39417,40097]):
     df['dConf'].iloc[x]=y
     df['decideCnt'].iloc[x]=z
