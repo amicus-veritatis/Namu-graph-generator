@@ -14,37 +14,38 @@ import matplotlib.gridspec as gridspec
 import matplotlib.font_manager as fm
 import matplotlib.patches as mpatches
 import itertools as itt
-
 #############################
 url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson'
-ServiceKey = #######################
+ServiceKey = u'#################################################################################################################'
 ##############################
 
 
 
 matplotlib.rcParams['axes.unicode_minus'] = False
 pd.set_option('display.max_rows', 500)
-path = '/NotoSansCJKkr-Black.otf'
-path2 = '/NotoSansCJKkr-Bold.otf'
-path3 = '/NotoSansCJKkr-Medium.otf'
-path4 = '/NotoSansCJKkr-Regular.otf'
+path = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Black.otf'
+path2 = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Bold.otf'
+path3 = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Medium.otf'
+path4 = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Regular.otf'
 fontprop = fm.FontProperties(fname=path)
 fontprop3 = fm.FontProperties(fname=path2,size=84)
-fontprop2 = fm.FontProperties(fname=path,size=48) #legend
+fontprop2 = fm.FontProperties(fname=path,size=56) #legend
 fontprop4 = fm.FontProperties(fname=path2,size=48)
-fontprop4 = fm.FontProperties(fname=path2,size=56)
-fontprop5 = fm.FontProperties(fname=path3,size=40)
+fontprop4 = fm.FontProperties(fname=path2,size=72)
+fontprop5 = fm.FontProperties(fname=path3,size=48)
 fontprop6 = fm.FontProperties(fname=path,size=48)
-fontprop7 = fm.FontProperties(fname=path2,size=40)
+fontprop7 = fm.FontProperties(fname=path,size=40)
 font1 = fontprop.get_name()
 font2 = fontprop2.get_name()
 
 def GenPlot(DataIn):
+    
     left = dt.date(2020, 1,20)
     right = dt.date.today()
     tick_spacing = 5000
     nDay = right if now.hour<10 else right+dt.timedelta(days=1)
     days = mdates.drange(left,nDay,dt.timedelta(days=1))
+    
     fig, [ax,timeline] = plt.subplots(nrows=2, ncols=1, sharex='col', gridspec_kw={'height_ratios': [30, 12], 'wspace' : 0, 'hspace':0},figsize=(48,36),constrained_layout=True, facecolor='#cad9e1')
     params = {"figure.facecolor": "#cad9e1",
               "axes.facecolor": "#cad9e1",
@@ -70,6 +71,9 @@ def GenPlot(DataIn):
     plt.rcParams.update(params)
     ax.set_title('대한민국 내 COVID-19 현황', fontproperties=fontprop3, pad=12, fontdict=dict(color="#4a4a4a"))
     ax2 = ax.twinx()
+    print("#######")
+    print(days)
+    print(DataIn['decideCnt'].astype(int).tolist())
     line1 = ax.plot(days, DataIn['decideCnt'].astype(int).tolist(), color="#244747")
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y\n%m')) 
     ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
@@ -104,21 +108,21 @@ def GenPlot(DataIn):
     ax.legend(bbox_to_anchor=(0.5, -0.02), loc='upper center', ncol=3,fancybox=True, prop=fontprop2,frameon=False)
 
     ax.xaxis.set_label_position('top')
-    string = "(" + dt.datetime.now().strftime("%Y/%m/%d")+ " 기준)"
+    string = "(" + nTime.strftime("%Y/%m/%d")+ " 기준)"
     
-    ax.set_xlabel(string, fontproperties=fontprop4, labelpad =28)
+    ax.set_xlabel(string, fontproperties=fontprop4, labelpad =28, color="#4a4a4a")
 
     ##### Timeline #########
-    txts = ["신천지 집단감염",'감염병 위기경보\n\'심각\' 격상','강화된\n사회적 거리 두기 실시','사회적 거리 두기 종료\n생활 속 거리 두기 전환', '수도권 교회 집단감염','사회적 거리 두기\n2단계 격상','사회적 거리 두기\n2.5단계 격상','사회적\n거리 두기\n완화\n(2.5→2)','사회적 거리 두기\n완화\n(2→1)',
-            '3차 대유행','사회적 거리 두기\n2단계 격상','']
+    txts = ["신천지 집단감염",'감염병 위기경보\n\'심각\' 격상','강화된\n사회적 거리 두기 실시','사회적 거리 두기 종료\n생활 속 거리 두기 전환', '수도권 교회 집단감염','사회적 거리 두기\n2단계 격상','격상\n(2→2.5)','사회적\n거리 두기\n완화\n(2.5→2)','사회적 거리 두기\n완화\n(2→1)',
+            '3차 대유행','사회적\n거리두기\n격상\n(1→2)','전국\n5인 이상\n집합 금지','']
     txts = list(reversed(txts))
     print(txts)
-    dates = ['2020-11-24','2020-11-20', '2020-10-12','2020-09-13','2020-08-30','2020-08-16','2020-08-15', '2020-05-05','2020-03-22','2020-02-23', '2020-02-18']
+    dates = ['2020-12-24','2020-11-24','2020-11-20', '2020-10-12','2020-09-13','2020-08-30','2020-08-16','2020-08-15', '2020-05-05','2020-03-22','2020-02-23', '2020-02-18']
     dates = [dt.datetime.strptime(d, "%Y-%m-%d") for d in dates]
     dates.append(left)
     dates.insert(0,right)
     print(dates)
-    levels=[0,1,-0.5,-1,-1,1,-0.25,-1,-0.5,-1,1,-1,0]
+    levels=[0,1,-0.5,-1,-1,1,-0.25,-1,-0.5,-1,1,-0.5,-0.5,0]
     hets=[]
     levels = np.flip(levels).tolist()
     print(levels)
@@ -130,20 +134,27 @@ def GenPlot(DataIn):
         color="k", markerfacecolor="w", markersize=20)  # Baseline and markers on it.
 #annotate line
     ha = ["right","left","center"]
-    ha = ["center","left","left","center","right","right","left","center","right"]
+    ha = ["center","left","left","left","center","right","right","left","center","right"]
     he = itt.cycle(ha)
     for d, l, r in zip(dates, levels, txts):
       timeline.annotate(r, xy=(d, l), xytext=(-3, np.sign(l)*3), textcoords="offset points", verticalalignment="bottom" if l > 0 else "top", ha="center"if l > 0 else next(he), fontproperties=fontprop6 if l>0 else fontprop7)
-    timeline.text(0, -0.24, "자료 : 질병관리청", transform=timeline.transAxes,
+    timeline.text(0, -0.32, "자료 : 질병관리청", transform=timeline.transAxes,
         ha="left", va="bottom", color="#4a4a4a",
         fontproperties=fontprop4)
     timeline.set_ylim([-2,2])
     timeline.get_yaxis().set_visible(False)
     timeline.set_facecolor("#cad9e1")
     timeline.grid(True,'minor', 'x', color="#ffffff", alpha=1)
+    string = "대한민국 내 COVID-19 현황 ("
+    Dtime = (nTime).strftime("%m.%d")
+    string2 = string + Dtime + " 기준)"
+    ax.text(1, 1, "인포그래픽 : 나무위키 iseoulu", transform=ax.transAxes,
+        ha="right", va="bottom", color="#4a4a4a",fontproperties=fontprop5 )
+
+
     fig2 = plt.gcf()
-    fig2.savefig('test2png.png',dpi=100)
-    fig2.show()
+    fig2.savefig(string2+'.png',dpi=100)
+
 
 
 
@@ -153,7 +164,6 @@ class req:
         DateTo = time.strftime('%Y%m%d',time.localtime(time.time()))
         query = {'serviceKey': ServiceKey, 'PageNo':PageNo,'numOfRows':Rows,'startCreateDt':DateFrom,'endCreateDt':DateTo}
         self.resp = get(url=url,params=query)
-        
 
 
 a = req(PageNo=1, DateFrom=20200311)
@@ -189,22 +199,11 @@ df['Event'].iloc[206]=-1
 df['Eventline'].iloc[206]='수도권 교회 집단감염'
 df['Event'].iloc[305]=-1
 df['Eventline'].iloc[305]='3차 대유행'
-for x,y,z in zip(range(323,326),[592,671,680],[38746,39417,40097]):
-    df['dConf'].iloc[x]=y
-    df['decideCnt'].iloc[x]=z
 # https://plotly.com/python/text-and-annotations/#text-font-as-an-array--styling-each-text-element
 key_colums = ['stateDt','decideCnt','clearCnt','dConf', 'Event', 'Eventline']
-data = Soup(response,'lxml-xml')
-Datetime = reversed(data.find_all('stateDt'))
-Confirm = reversed(data.find_all('decideCnt'))
-Release = reversed(data.find_all('clearCnt'))
-Death_toll = reversed(data.find_all('deathCnt'))
-CARE = reversed(data.find_all('careCnt'))
-Seq = reversed(data.find_all('seq'))
-oConfirm = [i for i in Confirm]
 #dConfirm = np.append(np.array([1]),np.array(oConfirm))
-DateIn = sp
 GenPlot(df[key_colums].copy())
+print(df[key_colums])
 #for date, conf, rlse, dead, care, seq in zip(Datetime,Confirm,Release,Death_toll,CARE,Seq):
 #    print('{0}\t\t{1}\t{2}\t{3}'.format(str(int(date.string)-1),conf.string,dead.string,rlse.string))
 
