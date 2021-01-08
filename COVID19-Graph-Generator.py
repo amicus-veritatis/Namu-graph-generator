@@ -23,10 +23,10 @@ ServiceKey = u'#################################################################
 
 matplotlib.rcParams['axes.unicode_minus'] = False
 pd.set_option('display.max_rows', 500)
-path = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Black.otf'
-path2 = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Bold.otf'
-path3 = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Medium.otf'
-path4 = 'C:\\Users\\guard\\AppData\\Local\\Microsoft\\Windows\\Fonts\\NotoSansCJKkr-Regular.otf'
+path = '\NotoSansCJKkr-Black.otf'
+path2 = '\NotoSansCJKkr-Bold.otf'
+path3 = '\NotoSansCJKkr-Medium.otf'
+path4 = '\NotoSansCJKkr-Regular.otf'
 fontprop = fm.FontProperties(fname=path)
 fontprop3 = fm.FontProperties(fname=path2,size=84)
 fontprop2 = fm.FontProperties(fname=path,size=56) #legend
