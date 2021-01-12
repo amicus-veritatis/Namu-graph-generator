@@ -13,33 +13,33 @@ import datetime as dt
 import matplotlib.gridspec as gridspec
 import matplotlib.font_manager as fm
 import matplotlib.patches as mpatches
+from matplotlib.dates import MO, TU, WE, TH, FR, SA, SU
 import itertools as itt
 #############################
 url = 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson'
-ServiceKey = u'#################################################################################################################'
+ServiceKey = #########################################################################################
 ##############################
 
 
 
 matplotlib.rcParams['axes.unicode_minus'] = False
 pd.set_option('display.max_rows', 500)
-path = '\NotoSansCJKkr-Black.otf'
-path2 = '\NotoSansCJKkr-Bold.otf'
-path3 = '\NotoSansCJKkr-Medium.otf'
-path4 = '\NotoSansCJKkr-Regular.otf'
+path = './NotoSansCJKkr-Black.otf' ######## 경로 직접 설정 필요
+path2 = './NotoSansCJKkr-Bold.otf' ##########################
+path3 = './NotoSansCJKkr-Medium.otf' ########################
+path4 = './NotoSansCJKkr-Regular.otf' #######################
 fontprop = fm.FontProperties(fname=path)
-fontprop3 = fm.FontProperties(fname=path2,size=84)
+fontprop3 = fm.FontProperties(fname=path2,size=120)
 fontprop2 = fm.FontProperties(fname=path,size=56) #legend
 fontprop4 = fm.FontProperties(fname=path2,size=48)
 fontprop4 = fm.FontProperties(fname=path2,size=72)
-fontprop5 = fm.FontProperties(fname=path3,size=48)
+fontprop5 = fm.FontProperties(fname=path3,size=54)
 fontprop6 = fm.FontProperties(fname=path,size=48)
 fontprop7 = fm.FontProperties(fname=path,size=40)
 font1 = fontprop.get_name()
 font2 = fontprop2.get_name()
 
 def GenPlot(DataIn):
-    
     left = dt.date(2020, 1,20)
     right = dt.date.today()
     tick_spacing = 5000
@@ -99,8 +99,8 @@ def GenPlot(DataIn):
     #######
     ax.annotate('Test', xy=(days[29], DataIn['decideCnt'].astype(int).iloc[29]), xytext=(days[29], DataIn['Event'].astype(int).iloc[29]), 
             textcoords='data', arrowprops=dict(arrowstyle='-|>'))
-    ax.grid(True,'major', 'y',color='#ffffff', linestyle='-', linewidth=2, alpha=1)
-    ax2.grid(True,'major', 'y',color='#ffffff', linestyle='-', linewidth=2, alpha=0.5)
+    ax.grid(True,'major', 'y',color='#3E647D', linestyle='-', linewidth=2, alpha=1)
+    ax2.grid(True,'major', 'y',color='#3E647D', linestyle='-', linewidth=2, alpha=0.5)
     for axs in [ax,timeline]:
         axs.set_frame_on(False)
     ax2.stem(days, DataIn['dConf'].tolist(), "#823c5a",markerfmt=" ", basefmt="#ffffff", use_line_collection=True,label="COVID-19 일일 확진자")
@@ -128,6 +128,9 @@ def GenPlot(DataIn):
     print(levels)
 # 9일부터 주석 풀기
     timeline.tick_params(axis="x", labelsize=40)
+    timeline.xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
+    timeline.tick_params(axis="x", which='major', length=30, width=10)
+    timeline.xaxis.set_minor_locator(mdates.WeekdayLocator(byweekday=MO,interval=2))
     timeline.xaxis.set_major_formatter(mdates.DateFormatter('%Y\n%m')) 
     timeline.vlines(dates, 0, levels, color="#e3120b")
     timeline.plot(dates, np.zeros_like(dates), "-o",
@@ -138,20 +141,29 @@ def GenPlot(DataIn):
     he = itt.cycle(ha)
     for d, l, r in zip(dates, levels, txts):
       timeline.annotate(r, xy=(d, l), xytext=(-3, np.sign(l)*3), textcoords="offset points", verticalalignment="bottom" if l > 0 else "top", ha="center"if l > 0 else next(he), fontproperties=fontprop6 if l>0 else fontprop7)
-    timeline.text(0, -0.32, "자료 : 질병관리청", transform=timeline.transAxes,
+    timeline.text(0, -0.4, "자료 : 질병관리청", transform=timeline.transAxes,
         ha="left", va="bottom", color="#4a4a4a",
         fontproperties=fontprop4)
     timeline.set_ylim([-2,2])
     timeline.get_yaxis().set_visible(False)
     timeline.set_facecolor("#cad9e1")
-    timeline.grid(True,'minor', 'x', color="#ffffff", alpha=1)
+
+    right = (np.datetime64('today').astype('datetime64[M]') + np.timedelta64(2, 'M')).astype('datetime64[D]')
+
+    mon = np.arange(np.datetime64('2020-01-01'), right, np.timedelta64(1, 'M'), dtype='datetime64[M]')
+    mon = mon.tolist()
+    print("mon\n")
+    print(mon)
+    for (i,j) in zip(mon[1::2], mon[2::2]):
+        timeline.axvspan(i,j,facecolor='#3E647D', alpha=0.25)
+ #   timeline.grid(True,'minor', 'x', color="#4a4a4a", alpha=0.5, linewidth=3)
     string = "대한민국 내 COVID-19 현황 ("
     Dtime = (nTime).strftime("%m.%d")
     string2 = string + Dtime + " 기준)"
     ax.text(1, 1, "인포그래픽 : 나무위키 iseoulu", transform=ax.transAxes,
         ha="right", va="bottom", color="#4a4a4a",fontproperties=fontprop5 )
-
-
+    ax.text(0.5, 1.15, ".", transform=ax.transAxes,
+        ha="right", va="bottom", color="#cad9e1",fontproperties=fontprop5 )
     fig2 = plt.gcf()
     fig2.savefig(string2+'.png',dpi=100)
 
@@ -164,7 +176,7 @@ class req:
         DateTo = time.strftime('%Y%m%d',time.localtime(time.time()))
         query = {'serviceKey': ServiceKey, 'PageNo':PageNo,'numOfRows':Rows,'startCreateDt':DateFrom,'endCreateDt':DateTo}
         self.resp = get(url=url,params=query)
-
+        
 
 a = req(PageNo=1, DateFrom=20200311)
 response = a.resp.text
