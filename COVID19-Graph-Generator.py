@@ -160,8 +160,6 @@ def GenPlot(DataIn):
     string = "대한민국 내 COVID-19 현황 ("
     Dtime = (nTime).strftime("%m.%d")
     string2 = string + Dtime + " 기준)"
-    ax.text(1, 1, "인포그래픽 : 나무위키 iseoulu", transform=ax.transAxes,
-        ha="right", va="bottom", color="#4a4a4a",fontproperties=fontprop5 )
     ax.text(0.5, 1.15, ".", transform=ax.transAxes,
         ha="right", va="bottom", color="#cad9e1",fontproperties=fontprop5 )
     fig2 = plt.gcf()
