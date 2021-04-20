@@ -112,17 +112,18 @@ def GenPlot(DataIn):
     
     ax.set_xlabel(string, fontproperties=fontprop4, labelpad =28, color="#4a4a4a")
 
+
     ##### Timeline #########
-    txts = ["신천지 집단감염",'감염병 위기경보\n\'심각\' 격상','강화된\n사회적 거리 두기 실시','사회적 거리 두기 종료\n생활 속 거리 두기 전환', '수도권 교회 집단감염','사회적 거리 두기\n2단계 격상','격상\n(2→2.5)','사회적\n거리 두기\n완화\n(2.5→2)','사회적 거리 두기\n완화\n(2→1)',
-            '3차 대유행','사회적\n거리두기\n격상\n(1→2)','전국\n5인 이상\n집합 금지','']
+    txts = ["신천지 집단감염",'감염병 위기경보\n\'심각\' 격상','강화된\n사회적 거리 두기 실시','사회적 거리 두기 종료\n생활 속 거리 두기 전환', '수도권 교회 집단감염','사회적 거리 두기\n2단계 격상','격상\n(2→2.5)','사회적\n거리 두기\n완화\n(2.5→2)','사회적\n거리 두기\n완화\n(2→1)',
+            '3차 대유행','사회적\n거리두기\n격상\n(1→2)','전국\n5인 이상\n집합 금지','사회적 거리두기 개편\n4단계 도입','국내 누적 확진자\n10만명 돌파','']
     txts = list(reversed(txts))
     print(txts)
-    dates = ['2020-12-24','2020-11-24','2020-11-20', '2020-10-12','2020-09-13','2020-08-30','2020-08-16','2020-08-15', '2020-05-05','2020-03-22','2020-02-23', '2020-02-18']
+    dates = ['2021-03-25','2021-03-05','2020-12-24','2020-11-24','2020-11-20', '2020-10-12','2020-09-13','2020-08-30','2020-08-16','2020-08-15', '2020-05-05','2020-03-22','2020-02-23', '2020-02-18']
     dates = [dt.datetime.strptime(d, "%Y-%m-%d") for d in dates]
     dates.append(left)
     dates.insert(0,right)
     print(dates)
-    levels=[0,1,-0.5,-1,-1,1,-0.25,-1,-0.5,-1,1,-0.5,-0.5,0]
+    levels=[0,1,-0.5,-1,-1,1,-0.25,-1,-0.5,-0.5,1,-0.5,-0.5,-0.5,0.75,0]
     hets=[]
     levels = np.flip(levels).tolist()
     print(levels)
@@ -137,7 +138,7 @@ def GenPlot(DataIn):
         color="k", markerfacecolor="w", markersize=20)  # Baseline and markers on it.
 #annotate line
     ha = ["right","left","center"]
-    ha = ["center","left","left","left","center","right","right","left","center","right"]
+    ha = ["right","center","left","left","center","center","right","right","left","center"]
     he = itt.cycle(ha)
     for d, l, r in zip(dates, levels, txts):
       timeline.annotate(r, xy=(d, l), xytext=(-3, np.sign(l)*3), textcoords="offset points", verticalalignment="bottom" if l > 0 else "top", ha="center"if l > 0 else next(he), fontproperties=fontprop6 if l>0 else fontprop7)
