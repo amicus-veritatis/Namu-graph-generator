@@ -203,7 +203,6 @@ def GenPlot(DataIn):
     timeline.tick_params(axis="x", which='major', length=30, width=8, labelsize=56)
     timeline.xaxis.set_minor_locator(mdates.WeekdayLocator(byweekday=MO,interval=2))
     timeline.xaxis.set_major_formatter(mdates.DateFormatter('%Y\n%m/%d'))
-    textbox = AnchoredText("인포그래픽 : 나무위키 iseoulu", frameon=False, loc=2, pad=0, prop=dict(family=font2, size=54, color="#4a4a4a"))
     plt.setp(textbox.patch, facecolor='#fafafa', alpha=1)
     ax.add_artist(textbox)
     plt.annotate('자료 : 질병관리청', (0,0), (0,-180), fontproperties=fontprop4,
