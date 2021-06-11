@@ -62,9 +62,7 @@ class mv_avg:
         self.period = period
         self.data = data
     def sma(self):
-        print("SMASMASMASMA\n")
         result = self.data.rolling(window=self.period).mean()
-        print("SMA!" + str(result.tolist()))
         return result
     def ema(self):
         result = self.data.ewm(span=self.period, adjust=False).mean()
@@ -130,7 +128,6 @@ def GenPlot(DataIn):
     nDay = right if now.hour<10 else right+dt.timedelta(days=1)
     days = mdates.drange(left,nDay,dt.timedelta(days=1))
     days = days[:-1] if len(days) != len(DataIn.iloc[::]) else days
-    print("len(DataIn.iloc[::]) : " + str(len(DataIn.iloc[::])) + "\n")
     fig, [ax,timeline] = plt.subplots(nrows=2, ncols=1, sharex='col', gridspec_kw={'height_ratios': [36, 0.001], 'wspace' : 0, 'hspace':0},figsize=(48,32),constrained_layout=True, facecolor='#fafafa') ### [36,20]
     params = {"figure.facecolor": "#fafafa",
               "axes.facecolor": "#fafafa",
