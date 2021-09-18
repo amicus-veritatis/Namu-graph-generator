@@ -386,8 +386,6 @@ class req:
         self.result = get(url=url, params=query)
 
 
-# a = get('http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson?serviceKey=JHpaIJv%2B5PAwUPeIKgB2lHHYC0ihDpYI2FJlzhef3lWfu%2B53ckwbgEO7EwyAMHvcowQgsHNihn7a2pCOLOBy9w%3D%3D&pageNo=1&numOfRows=10&startCreateDt=20200310&endCreateDt=20200315')
-
 
 a = req(returnType="JSON")
 results = json.loads(a.result.text)
