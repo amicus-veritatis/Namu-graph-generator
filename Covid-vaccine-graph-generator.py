@@ -364,9 +364,6 @@ def GenPlot(DataIn):
 
     ###
 
-    #    ax.text(1, 1.1, "인포그래픽 : 나무위키 iseoulu", transform=ax.transAxes,
-    #       ha="right", va="top", color="#4a4a4a",fontproperties=fontprop2)
-
     ax.text(0.5, 1.2, ".", transform=ax.transAxes,
             ha="right", va="center", color="#fafafa", fontproperties=fontprop5)
     timeline.text(0.5, -0.15, ".", transform=ax.transAxes,
