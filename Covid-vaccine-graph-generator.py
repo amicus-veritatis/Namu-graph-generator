@@ -342,8 +342,6 @@ def GenPlot(DataIn):
 
     plt.annotate('자료 : 질병관리청', (0, 0), (0, -180), fontproperties=fontprop4,
                  xycoords='axes fraction', textcoords='offset points', va='top')
-    plt.annotate('인포그래픽 : 나무위키 iseoulu', (0, 0), (2180, -180), fontproperties=fontprop4,
-                 xycoords='axes fraction', textcoords='offset points', va='top', ha='left')
     timeline.set_ylim([-2, 2])
     timeline.yaxis.tick_left()
     timeline.get_yaxis().set_visible(False)  ############
